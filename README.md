@@ -42,3 +42,17 @@ Related Posts:
 
 Security:
 > [Spring Boot + Spring Security JWT Authentication & Authorization](https://www.bezkoder.com/spring-boot-jwt-authentication/)
+
+INSPECTIT_CONFIG_HTTP_URL: http://172.17.0.1:8090/api/v1/agent/configuration
+
+curl -X POST -d '{"title":"value1", "description":"value2"}' -H "Content-Type: application/json" http://localhost:6868/api/tutorials
+    entrypoint: ["java", "-javaagent:/agent/inspectit-ocelot-agent.jar", "-Dinspectit.service-name=tutorial-service", "-Dinspectit.exporters.tracing.service-name=tutorial-service", "-Dinspectit.self-monitoring.action-tracing=ALL_WITH_DEFAULT", "-Dinspectit.exporters.tracing.logging.enabled=ENABLED", "-Dinspectit.exporters.tracing.jaeger.enabled=ENABLED", "-Dinspectit.exporters.tracing.jaeger.protocol=http/thrift", "-Dinspectit.exporters.tracing.jaeger.endpoint=http://172.17.0.1:14268/api/traces", "-Dinspectit.exporters.metrics.influx.enabled=ENABLED", "-Dinspectit.exporters.metrics.influx.endpoint=http://172.17.0.1:8086", "-jar", "/bezkoder-app/app.jar"]
+
+mv /home/johnny/inspectIT/inspectit/jre/lib/amd64/libfreetype.so.6 /home/johnny/inspectIT/inspectit/jre/lib/amd64/libfreetype.so.6.bak
+
+Notes:
+~/.swt/lib/linux/x86_64$ cp libswt-pi-gtk-3836.so libswt-pi-gtk.so
+apt install libswt-gtk4-java
+
+inspectit ocelot config file is reloaded automatically
+https://inspectit.github.io/inspectit-ocelot/docs/configuration/external-configuration-sources#file-based-configuration

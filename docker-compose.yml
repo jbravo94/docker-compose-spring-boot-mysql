@@ -20,16 +20,22 @@ services:
     env_file: ./.env
     ports:
       - $SPRING_LOCAL_PORT:$SPRING_DOCKER_PORT
+      - 8888:8888
     environment:
-      SPRING_APPLICATION_JSON: '{
-        "spring.datasource.url"  : "jdbc:mysql://mysqldb:$MYSQLDB_DOCKER_PORT/$MYSQLDB_DATABASE?useSSL=false",
-        "spring.datasource.username" : "$MYSQLDB_USER",
-        "spring.datasource.password" : "$MYSQLDB_ROOT_PASSWORD",
-        "spring.jpa.properties.hibernate.dialect" : "org.hibernate.dialect.MySQL5InnoDBDialect",
-        "spring.jpa.hibernate.ddl-auto" : "update"
-      }'
+      SPRING_APPLICATION_JSON: '{"spring.datasource.url"  : "jdbc:mysql://mysqldb:$MYSQLDB_DOCKER_PORT/$MYSQLDB_DATABASE?useSSL=false","spring.datasource.username" : "$MYSQLDB_USER","spring.datasource.password" : "$MYSQLDB_ROOT_PASSWORD","spring.jpa.properties.hibernate.dialect" : "org.hibernate.dialect.MySQL5InnoDBDialect","spring.jpa.hibernate.ddl-auto" : "update", "spring.jpa.properties.hibernate.show_sql":true, "logging.level.org.springframework.jdbc.core": "TRACE"}'
+      INSPECTIT_CONFIG_HTTP_URL: http://172.17.0.1:8090/api/v1/agent/configuration
+      INSPECTIT_SERVICE_NAME: tutorial-service
+      INSPECTIT_EXPORTERS_TRACING_SERVICE_NAME: tutorial-service
+      INSPECTIT_EXPORTERS_TRACING_JAEGER_ENABLED: ENABLED
+      INSPECTIT_EXPORTERS_TRACING_JAEGER_PROTOCOL: http/thrift
+      INSPECTIT_EXPORTERS_TRACING_JAEGER_ENDPOINT: http://172.17.0.1:14268/api/traces
+      INSPECTIT_EXPORTERS_METRICS_INFLUX_ENABLED: ENABLED
+      INSPECTIT_EXPORTERS_METRICS_INFLUX_ENDPOINT: http://172.17.0.1:8086
+    entrypoint: ["java", "-javaagent:/agent/inspectit-ocelot-agent.jar", "-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=0.0.0.0:8888", "-jar", "/bezkoder-app/app.jar"]
+    deploy:
     volumes:
       - .m2:/root/.m2
+      - ./agent:/agent
     stdin_open: true
     tty: true
 

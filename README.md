@@ -53,3 +53,6 @@ mv /home/johnny/inspectIT/inspectit/jre/lib/amd64/libfreetype.so.6 /home/johnny/
 Notes:
 ~/.swt/lib/linux/x86_64$ cp libswt-pi-gtk-3836.so libswt-pi-gtk.so
 apt install libswt-gtk4-java
+
+inspectit ocelot config file is reloaded automatically
+https://inspectit.github.io/inspectit-ocelot/docs/configuration/external-configuration-sources#file-based-configuration
